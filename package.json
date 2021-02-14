@@ -1,0 +1,19 @@
+{
+  "name": "mealrecord",
+  "version": "1.0.0",
+  "description": "meal record api",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xeron07/mealrecord.git"
+  },
+  "author": "Md. Minhaz Uddin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Xeron07/mealrecord/issues"
+  },
+  "homepage": "https://github.com/Xeron07/mealrecord#readme"
+}
