@@ -13,16 +13,27 @@ router.get("/all",async(req,res)=>{
   res.json({usersData,response:true});
 });
 
-router.post("/add", async(req,res)=>{
-  const {uname,password}=req.body;
+router.post("/signup", async(req,res)=>{
+  const {uname,password,email}=req.body;
   let user=new userModel({
-    u_id:Date.now(),
-    uname,password
+    userId:Date.now(),
+    uname,password,email
   });
 
   user= await user.save();
 
   res.json({user,response:true});
 });
+
+router.post("/login",async(req,res)=>{
+  const {email,pass}=req.body;
+
+  const user=await userModel.findOne({email,password:pass});
+  if(user){
+    res.json({user,validate:true});
+  }else{
+    res.json({user,validate:false,msg:"Wrong email or password"});
+  }
+})
 
 module.exports = router;
