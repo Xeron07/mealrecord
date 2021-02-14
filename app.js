@@ -3,8 +3,19 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const mongoose=require("mongoose");
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+
+mongoose.connect(
+    //"mongodb://localhost:27017/docChopper"
+    "mongodb+srv://docchoper:2020docchoper@cluster0.tgu99.mongodb.net/mealrecord",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  );
 
 var app = express();
 
