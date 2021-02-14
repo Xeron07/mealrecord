@@ -4,8 +4,9 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const jvSchema = new Schema({
-  u_id: { type: String, default:new Date().now },
+  userId: { type: String, default:new Date().now },
   uname: { type: String, default: "" },
+  email:{type: String, default:""},
   password: { type:String,default:""}
 });
 
