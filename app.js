@@ -7,6 +7,7 @@ const mongoose=require("mongoose");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const mealRouter=require("./routes/meals");
 
 mongoose.connect(
     //"mongodb://localhost:27017/docChopper"
@@ -27,5 +28,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use("/meals",mealRouter);
 
 module.exports = app;
