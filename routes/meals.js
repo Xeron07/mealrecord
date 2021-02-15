@@ -61,7 +61,7 @@ router.get("/weekly", async (req, res) => {
   ];
 
   const weeklyData = await mealModel.aggregate(pipeline);
-  res.json({ weeklyData });
+  res.json( weeklyData );
 });
 
 module.exports = router;
