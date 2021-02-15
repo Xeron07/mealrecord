@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 router.get("/all",async(req,res)=>{
   const usersData= await userModel.find({});
 
-  res.json({usersData,response:true});
+  res.json(usersData);
 });
 
 router.post("/signup", async(req,res)=>{
