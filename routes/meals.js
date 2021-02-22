@@ -126,7 +126,7 @@ router.post("/daily",async(req,res)=>{
   ];
 
   let weeklyData = await mealModel.aggregate(pipeline);
-  res.json({weeklyData});
+  res.json(weeklyData);
 
 });
 
