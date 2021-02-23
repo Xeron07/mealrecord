@@ -7,6 +7,7 @@ const mealSchema=new Schema({
    mealCount:Number,
    price:Number,
    date:Date,
+   ds:Number
 });
 
 module.exports = mongoose.model("meals", mealSchema);
