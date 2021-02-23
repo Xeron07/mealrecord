@@ -16,9 +16,10 @@ router.get("/", async (req, res, next) => {
 router.post("/add", async (req, res) => {
   const { userId, mealCount } = req.body;
   let meal;
-  meal= await mealModel.findOne({userId,date:{$gte:today}});
-  
-  console.log(meal);
+  let newTime=new Date();
+  let currentTime=new Date(newTime.getFullYear(),newTime.getMonth(),newTime.getDate()+1);
+  meal= await mealModel.findOne({userId,date:{$gte:currentTime}});
+
 
   if(meal){
     meal.mealCount=mealCount;
@@ -92,10 +93,13 @@ router.get("/weekly", async (req, res) => {
 });
 
 router.post("/daily",async(req,res)=>{
+
+  let newTime=new Date();
+  let currentTime=new Date(newTime.getFullYear(),newTime.getMonth(),newTime.getDate()+1);
   const pipeline = [
     {
       $match: {
-        date: { $gte: today },
+        date: { $gte: currentTime },
       },
     },
     {
