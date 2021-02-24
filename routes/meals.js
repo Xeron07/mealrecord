@@ -20,7 +20,7 @@ router.post("/add", async (req, res) => {
   let currentTime = new Date(
     newTime.getFullYear(),
     newTime.getMonth(),
-    newTime.getDate() + 1
+    newTime.getDate()
   ).getTime();
   meal = await mealModel.findOne({ userId, ds: { $gte: currentTime } });
 
@@ -102,7 +102,7 @@ router.post("/daily", async (req, res) => {
   let currentTime = new Date(
     newTime.getFullYear(),
     newTime.getMonth(),
-    newTime.getDate() + 1
+    newTime.getDate() 
   ).getTime();
   console.log(currentTime);
   console.log(Date.now());
@@ -144,5 +144,10 @@ router.post("/daily", async (req, res) => {
   let weeklyData = await mealModel.aggregate(pipeline);
   res.json(weeklyData);
 });
+
+router.delete("/remove/all",async(req,res)=>{
+  let result=await mealModel.remove();
+  res.json(result);
+})
 
 module.exports = router;

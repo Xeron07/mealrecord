@@ -34,6 +34,11 @@ router.post("/login",async(req,res)=>{
   }else{
     res.json({user,validate:false,msg:"Wrong email or password"});
   }
+});
+
+router.delete("/remove/all",async(req,res)=>{
+  let result=await userModel.remove();
+  res.json(result);
 })
 
 module.exports = router;
