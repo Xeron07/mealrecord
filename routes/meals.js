@@ -16,22 +16,25 @@ router.get("/", async (req, res, next) => {
 router.post("/add", async (req, res) => {
   const { userId, mealCount } = req.body;
   let meal;
-  let newTime=new Date();
-  let currentTime=new Date(newTime.getFullYear(),newTime.getMonth(),newTime.getDate()+1).getTime();
-  meal= await mealModel.findOne({userId,ds:{$gte:currentTime}});
+  let newTime = new Date();
+  let currentTime = new Date(
+    newTime.getFullYear(),
+    newTime.getMonth(),
+    newTime.getDate() + 1
+  ).getTime();
+  meal = await mealModel.findOne({ userId, ds: { $gte: currentTime } });
 
-
-  if(meal){
-    meal.mealCount=mealCount;
-    meal.price=mealCount * perMeal;
-  }else{
-   meal = new mealModel({
+  if (meal) {
+    meal.mealCount = mealCount;
+    meal.price = mealCount * perMeal;
+  } else {
+    meal = new mealModel({
       mealId: Date.now(),
       userId,
       mealCount,
       price: mealCount * perMeal,
-      date:new Date(),
-      ds:Date.now()
+      date: new Date(),
+      ds: Date.now(),
     });
   }
 
@@ -49,56 +52,60 @@ router.get("/weekly", async (req, res) => {
     {
       $group: {
         _id: { userId: "$userId" },
-        totalMeal:{
-            $sum:"$mealCount"
+        totalMeal: {
+          $sum: "$mealCount",
         },
-        totalPrice:{
-            $sum:"$price"
-        }
+        totalPrice: {
+          $sum: "$price",
+        },
       },
     },
-    
+
     {
       $lookup: {
         from: "users",
-        let:{uId:"$_id.userId"},
-        pipeline:[{
-            $match:{
-                $expr:{$eq:["$userId","$$uId"]}
-            }
-        }],
+        let: { uId: "$_id.userId" },
+        pipeline: [
+          {
+            $match: {
+              $expr: { $eq: ["$userId", "$$uId"] },
+            },
+          },
+        ],
         as: "user",
       },
     },
-    
   ];
 
-  const totalPipeline=[
-      {
-          $match:{
-            date: { $gte: lastSunday },
-          }
+  const totalPipeline = [
+    {
+      $match: {
+        date: { $gte: lastSunday },
       },
-      {
-          $group:{
-              _id:null,
-              totalAmount:{$sum:"$price"},
-              totalMealCount:{$sum:"$mealCount"}
-          }
-      }
-  ]
+    },
+    {
+      $group: {
+        _id: null,
+        totalAmount: { $sum: "$price" },
+        totalMealCount: { $sum: "$mealCount" },
+      },
+    },
+  ];
 
   let weeklyData = await mealModel.aggregate(pipeline);
-  let totalData=await mealModel.aggregate(totalPipeline);
-  res.json( {weeklyData,sumOfWeek:totalData[0]} );
+  let totalData = await mealModel.aggregate(totalPipeline);
+  res.json({ weeklyData, sumOfWeek: totalData[0] });
 });
 
-router.post("/daily",async(req,res)=>{
-
-  let newTime=new Date();
-  let currentTime=new Date(newTime.getFullYear(),newTime.getMonth(),newTime.getDate()+1).getTime();
+router.post("/daily", async (req, res) => {
+  let newTime = new Date();
+  let currentTime = new Date(
+    newTime.getFullYear(),
+    newTime.getMonth(),
+    newTime.getDate() + 1
+  ).getTime();
   console.log(currentTime);
-  
+  console.log(Date.now());
 
   const pipeline = [
     {
@@ -109,33 +116,33 @@ router.post("/daily",async(req,res)=>{
     {
       $group: {
         _id: { userId: "$userId" },
-        totalMeal:{
-            $sum:"$mealCount"
+        totalMeal: {
+          $sum: "$mealCount",
         },
-        totalPrice:{
-            $sum:"$price"
-        }
+        totalPrice: {
+          $sum: "$price",
+        },
       },
     },
-    
+
     {
       $lookup: {
         from: "users",
-        let:{uId:"$_id.userId"},
-        pipeline:[{
-            $match:{
-                $expr:{$eq:["$userId","$$uId"]}
-            }
-        }],
+        let: { uId: "$_id.userId" },
+        pipeline: [
+          {
+            $match: {
+              $expr: { $eq: ["$userId", "$$uId"] },
+            },
+          },
+        ],
         as: "user",
       },
     },
-    
   ];
 
   let weeklyData = await mealModel.aggregate(pipeline);
   res.json(weeklyData);
-
 });
 
 module.exports = router;
