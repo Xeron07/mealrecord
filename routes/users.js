@@ -22,9 +22,13 @@ router.post("/signup", async(req,res)=>{
     uname,password,email
   });
 
-  user= await user.save();
-
-  res.json({user,response:true});
+  try
+  {
+    user= await user.save();
+    res.json({user,response:true});
+  }catch{
+    res.json({user,response:false});
+  }
 });
 
 router.post("/login",async(req,res)=>{
