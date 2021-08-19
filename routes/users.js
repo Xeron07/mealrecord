@@ -13,6 +13,8 @@ router.get("/all",async(req,res)=>{
   res.json(usersData);
 });
 
+
+
 router.post("/signup", async(req,res)=>{
   const {uname,password,email}=req.body;
   let user=new userModel({

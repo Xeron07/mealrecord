@@ -6,12 +6,15 @@ const mealModel = require("../models/meals");
 let now = new Date();
 let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 let lastSunday = new Date(today.setDate(today.getDate() - today.getDay() + 1));
-const perMeal = 60;
+const perMeal = 65;
 
 router.get("/", async (req, res, next) => {
   const allData = await mealModel.find({});
   res.json({ allData });
 });
+
+
+//ADD NEW MEAL RECORD 
 
 router.post("/add", async (req, res) => {
   const { userId, mealCount } = req.body;
@@ -38,6 +41,9 @@ router.post("/add", async (req, res) => {
   let result = await meal.save();
   res.json({ result, isAdded: true });
 });
+
+
+//GET WEEKLY MEAL RECORD
 
 router.get("/weekly", async (req, res) => {
   const pipeline = [
@@ -92,6 +98,9 @@ router.get("/weekly", async (req, res) => {
   let totalData=await mealModel.aggregate(totalPipeline);
   res.json( {weeklyData,sumOfWeek:totalData[0]} );
 });
+
+
+//GET DAILY MEAL DATA
 
 router.post("/daily",async(req,res)=>{
 
