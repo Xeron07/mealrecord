@@ -10,8 +10,7 @@ var usersRouter = require('./routes/users');
 const mealRouter=require("./routes/meals");
 
 mongoose.connect(
-    //"mongodb://localhost:27017/docChopper"
-    "mongodb+srv://docchoper:2020docchoper@cluster0.tgu99.mongodb.net/mealrecord",
+    "mongodb://localhost:27017/docChopper",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
